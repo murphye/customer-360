@@ -20,8 +20,8 @@ public class NameHandler {
     }
 
     public Mono<ServerResponse> getAll(ServerRequest request) {
-        Flux<Name> names = nameRepository.findAll();
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(names, Name.class);
+        Flux<Name> nameFlux = nameRepository.findAll();
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(nameFlux, Name.class);
     }
 
     public Mono<ServerResponse> getName(ServerRequest request) {
@@ -30,6 +30,13 @@ public class NameHandler {
         return nameMono
             .flatMap(name -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromValue(name)))
             .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+
+    public Mono<ServerResponse> getNameByLast(ServerRequest request) {
+        String last = request.pathVariable("last");
+        Flux<Name> nameFlux = nameRepository.findByLast(last);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(nameFlux, Name.class);
     }
 
     public Mono<ServerResponse> postName(ServerRequest request) {
