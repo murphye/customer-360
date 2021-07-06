@@ -4,10 +4,10 @@ import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 
-record Name(@Id Integer id, String first, String middle, String last) {
+record Name(@Id Integer personId, String first, String middle, String last) {
 
 	boolean hasId() {
-		return id != null;
+		return personId != null;
 	}
 
 	@Override

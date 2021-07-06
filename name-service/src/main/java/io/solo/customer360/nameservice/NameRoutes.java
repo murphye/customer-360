@@ -15,10 +15,22 @@ public class NameRoutes {
 
 	@Bean
 	public RouterFunction<ServerResponse> monoRouterFunction(NameHandler nameHandler) {
-		return route().GET("/api/name", accept(APPLICATION_JSON), nameHandler::getAll, ops -> ops.beanClass(NameRepository.class).beanMethod("findAll")).build()
-		  .and(route().GET("/api/name/{id}", accept(APPLICATION_JSON), nameHandler::getName, ops -> ops.beanClass(NameRepository.class).beanMethod("findById")).build()
-		  .and(route().GET("/api/name/last/{last}", accept(APPLICATION_JSON), nameHandler::getNameByLast, ops -> ops.beanClass(NameRepository.class).beanMethod("findByLast")).build()
-		  .and(route().POST("/api/name/post", accept(APPLICATION_JSON), nameHandler::postName, ops -> ops.beanClass(NameRepository.class).beanMethod("saveAll")).build())));
+		return 
+			route().GET("/api/name", accept(APPLICATION_JSON), 
+				nameHandler::getAll, 
+				ops -> ops.beanClass(NameRepository.class).beanMethod("findAll")).build().and(
+
+			route().GET("/api/name/{id}", accept(APPLICATION_JSON), 
+				nameHandler::getName, 
+				ops -> ops.beanClass(NameRepository.class).beanMethod("findById")).build().and(
+
+			route().GET("/api/name/last/{last}", accept(APPLICATION_JSON), 
+				nameHandler::getNameByLast, 
+				ops -> ops.beanClass(NameRepository.class).beanMethod("findByLast")).build().and(
+
+			route().POST("/api/name/post", accept(APPLICATION_JSON), 
+				nameHandler::postName, 
+				ops -> ops.beanClass(NameRepository.class).beanMethod("saveAll")).build())));
     }
 
 }

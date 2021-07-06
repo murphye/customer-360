@@ -1,17 +1,5 @@
-version: '3.8'
+version: '2'
 services:
-  customer-service:
-    image: murphye/customer-service
-    ports:
-      - '8081:8080'
-  person-service:
-    image: murphye/person-service
-    ports:
-      - '8082:8080'
-  name-service:
-    image: murphye/name-service
-    ports:
-      - '8083:8080'
   postgres:
     image: postgres:13
     restart: always
@@ -25,3 +13,28 @@ services:
         max-file: "3"
     ports:
       - '5432:5432'
+    networks:
+      - customer-network
+  customer:
+    image: murphye/customer-service
+    ports:
+      - '8081:8080'
+    networks:
+      - customer-network
+  person:
+    image: murphye/person-service
+    ports:
+      - '8082:8080'
+    networks:
+      - customer-network
+  name:
+    image: murphye/name-service
+    ports:
+      - '8083:8080'
+    depends_on:
+      - postgres
+    networks:
+      - customer-network
+networks:
+  customer-network:
+    driver: bridge

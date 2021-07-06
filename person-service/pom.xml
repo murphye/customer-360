@@ -35,6 +35,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -46,14 +52,50 @@
 				<version>3.1.1</version>
 				<configuration>
 					<from>
-						<image>openjdk:16-slim</image>
+						<image>amazoncorretto:16</image>
 					</from>
 					<to>
 						<image>docker.io/murphye/person-service</image>
 					</to>
+					<container>
+						<jvmFlags>
+							<jvmFlag>-XX:+UseShenandoahGC</jvmFlag>
+							<jvmFlag>-Xlog:gc</jvmFlag>
+						</jvmFlags>
+					</container>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>docker-compose</id>
+			<properties>
+				<spring.profiles.active>docker-compose</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>kubernetes</id>
+			<properties>
+				<spring.profiles.active>kubernetes</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>istio-domainsockets</id>
+			<properties>
+				<spring.profiles.active>istio-domainsockets</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>
