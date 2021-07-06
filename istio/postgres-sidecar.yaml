@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: postgres
+  namespace: default
+spec:
+  workloadSelector:
+    labels:
+      app: postgres
+  ingress:
+  - port:
+      number: 5432
+      protocol: TCP
+      name: tcp-postgres
+    defaultEndpoint: unix:///var/run/postgresql/.s.PGSQL.5432
