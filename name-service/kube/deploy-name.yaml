@@ -23,7 +23,7 @@ kind: Deployment
 metadata:
   name: name
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: name
@@ -33,6 +33,10 @@ spec:
       labels:
         app: name
         version: v1
+      annotations:
+        sidecar.istio.io/userVolumeMount: '[{"name": "name-socket", "mountPath": "/var/run/name"}]'
+        sidecar.istio.io/proxyCPULimit: "3"
+        sidecar.istio.io/proxyMemoryLimit: "3Gi"
     spec:
       serviceAccountName: name
       containers:
@@ -40,6 +44,9 @@ spec:
         name: name
         ports:
         - containerPort: 8080
+        volumeMounts:
+          - mountPath: /var/run/name
+            name: name-socket
       affinity:
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -61,3 +68,8 @@ spec:
                 - customer
                 - person
             topologyKey: "kubernetes.io/hostname"
+      volumes:
+      - name: name-socket
+        emptyDir: {}
+      securityContext:
+        fsGroup: 1337

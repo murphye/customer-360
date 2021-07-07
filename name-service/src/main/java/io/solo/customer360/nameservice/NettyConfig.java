@@ -15,13 +15,13 @@ import reactor.netty.http.server.HttpServer;
 public class NettyConfig {
 
     @Bean
-    @Profile("prod-domainsockets")
+    @Profile("istio-domainsockets")
     public NettyReactiveWebServerFactory factory() {
         var factory = new NettyReactiveWebServerFactory();
         factory.setServerCustomizers(Collections.singletonList(new NettyServerCustomizer() {
             @Override
             public HttpServer apply(HttpServer httpServer) {
-                return httpServer.bindAddress(() -> new DomainSocketAddress("/tmp/test.sock"));
+                return httpServer.bindAddress(() -> new DomainSocketAddress("/var/run/name/inbound.sock"));
             }
         }));
         return factory;

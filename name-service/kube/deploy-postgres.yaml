@@ -46,6 +46,8 @@ spec:
         version: v1
       annotations:
         sidecar.istio.io/userVolumeMount: '[{"name": "postgres-socket", "mountPath": "/var/run/postgresql"}]'
+        sidecar.istio.io/proxyCPULimit: "3"
+        sidecar.istio.io/proxyMemoryLimit: "3Gi"
     spec:
       serviceAccountName: postgres
       containers:

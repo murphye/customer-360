@@ -24,7 +24,7 @@ kind: Deployment
 metadata:
   name: customer
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: customer
@@ -34,6 +34,10 @@ spec:
       labels:
         app: customer
         version: v1
+      annotations:
+        sidecar.istio.io/userVolumeMount: '[{"name": "netty-sockets", "mountPath": "/var/run/netty"}]'
+        sidecar.istio.io/proxyCPULimit: "3"
+        sidecar.istio.io/proxyMemoryLimit: "3Gi"
     spec:
       serviceAccountName: customer
       containers:
@@ -41,3 +45,11 @@ spec:
         name: customer
         ports:
         - containerPort: 8080
+        volumeMounts:
+          - mountPath: /var/run/netty
+            name: netty-sockets
+      volumes:
+      - name: netty-sockets
+        emptyDir: {}
+      securityContext:
+        fsGroup: 1337

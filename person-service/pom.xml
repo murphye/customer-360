@@ -62,6 +62,7 @@
 							<jvmFlag>-XX:+UseShenandoahGC</jvmFlag>
 							<jvmFlag>-Xlog:gc</jvmFlag>
 						</jvmFlags>
+						<user>1337</user>
 					</container>
 				</configuration>
 			</plugin>

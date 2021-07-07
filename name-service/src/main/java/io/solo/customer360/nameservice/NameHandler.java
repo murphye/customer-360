@@ -32,7 +32,6 @@ public class NameHandler {
             .switchIfEmpty(ServerResponse.notFound().build());
     }
 
-
     public Mono<ServerResponse> getNameByLast(ServerRequest request) {
         String last = request.pathVariable("last");
         Flux<Name> nameFlux = nameRepository.findByLast(last);

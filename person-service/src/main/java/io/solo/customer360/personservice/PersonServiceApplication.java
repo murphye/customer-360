@@ -80,7 +80,7 @@ public class PersonServiceApplication {
 	@Bean
 	@Profile("istio-domainsockets")
 	WebClient webClientIstioDomainSockets(WebClient.Builder webClientBuilder) {
-		var client = HttpClient.create().remoteAddress(() -> new DomainSocketAddress("/var/run/docker.sock"));
+		var client = HttpClient.create().remoteAddress(() -> new DomainSocketAddress("/var/run/netty/outbound.sock"));
 		return webClientBuilder.clientConnector(new ReactorClientHttpConnector(client)).build();
 	}
 
@@ -91,7 +91,7 @@ public class PersonServiceApplication {
         factory.setServerCustomizers(Collections.singletonList(new NettyServerCustomizer() {
             @Override
             public HttpServer apply(HttpServer httpServer) {
-                return httpServer.bindAddress(() -> new DomainSocketAddress("/tmp/test.sock"));
+                return httpServer.bindAddress(() -> new DomainSocketAddress("/var/run/netty/inbound.sock"));
             }
         }));
         return factory;

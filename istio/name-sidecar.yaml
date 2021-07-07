@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: name
+  namespace: default
+spec:
+  workloadSelector:
+    labels:
+      app: name
+  ingress:
+  - port:
+      number: 8080
+      protocol: HTTP
+      name: http
+    defaultEndpoint: unix:///var/run/name/inbound.sock
