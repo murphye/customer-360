@@ -48,16 +48,6 @@ spec:
           - mountPath: /var/run/name
             name: name-socket
       affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: "app"
-                operator: In
-                values:
-                - postgres
-            topologyKey: "kubernetes.io/hostname"
-      affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
@@ -65,8 +55,7 @@ spec:
               - key: "app"
                 operator: In
                 values:
-                - customer
-                - person
+                - name
             topologyKey: "kubernetes.io/hostname"
       volumes:
       - name: name-socket
